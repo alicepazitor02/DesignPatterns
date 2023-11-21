@@ -1,26 +1,30 @@
 package book.com.example.demo;
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
 public class Main {
+    public static void main(String[] args) {
+        Book noapteBuna = new Book("Noapte buna, copii!");
+        Author rpGheo = new Author("Radu Pavel Gheo");
+        noapteBuna.addAuthor(rpGheo);
 
-	public static void main(String[] args) {
-		Book discoTitanic = new Book("Disco Titanic");
-		Author author = new Author("Radu Pavel Gheo");
-		discoTitanic.addAuthor(author);
-		int indexChapterOne = discoTitanic.createChapter("Capitolul 1");
-		Chapter chp1 = discoTitanic.getChapter(indexChapterOne);
-		int indexSubChapterOneOne = chp1.createSubChapter("Subcapitolul 1.1");
-		Subchapter scOneOne = chp1.getSubChapter(indexSubChapterOneOne);
-		scOneOne.createNewParagraph("Paragraph 1");
-		scOneOne.createNewParagraph("Paragraph 2");
-		scOneOne.createNewParagraph("Paragraph 3");
-		scOneOne.createNewImage("Image 1");
-		scOneOne.createNewParagraph("Paragraph 4");
-		scOneOne.createNewTable("Table 1");
-		scOneOne.createNewParagraph("Paragraph 5");
-		scOneOne.print();
-		}
+        noapteBuna.addContent(new Paragraph("Multumesc celor care ..."));
 
+        Section cap1 = new Section("Capitolul 1");
+        noapteBuna.addContent(cap1);
+
+        Paragraph sharedParagraph = new Paragraph("Shared Paragraph");
+        cap1.add(sharedParagraph.clone());  // Use the clone method
+
+        // Print the book before making changes
+        System.out.println("Before modifying sharedParagraph:");
+        noapteBuna.print();
+
+        // Modify the text of the sharedParagraph in cap1
+        sharedParagraph.setText("Modified Shared Paragraph");
+
+        // Add a new paragraph to cap1
+        cap1.add(new Paragraph("New Paragraph in cap1"));
+
+        // Print the book after making changes
+        System.out.println("\nAfter modifying sharedParagraph and adding a new paragraph:");
+        noapteBuna.print();
+    }
 }

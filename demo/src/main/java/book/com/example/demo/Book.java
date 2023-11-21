@@ -2,42 +2,43 @@ package book.com.example.demo;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-@Data
-@AllArgsConstructor
-@RequiredArgsConstructor
-public class Book {
-    private String name;
-    private Author author;
-    private TableOfContents tableOfContents;
-    
-    private List<Author> authors = new ArrayList<>();
-    private List<Chapter> chapters = new ArrayList<>();
+import lombok.NoArgsConstructor;
 
-    public Book(String name) {
-        this.name = name;
+
+@Data
+@NoArgsConstructor
+public class Book extends Section implements Element {
+    private List<Author> authors = new ArrayList<>();
+
+    public Book(String title) {
+        super(title);
     }
 
     public void addAuthor(Author author) {
         authors.add(author);
     }
 
-    public int createChapter(String chapterName) {
-        Chapter chapter = new Chapter(chapterName);
-        chapters.add(chapter);
-        return chapters.indexOf(chapter);
+    public List<Author> getAuthors() {
+        return authors;
     }
 
-    public Chapter getChapter(int index) {
-        return chapters.get(index);
+    public void removeAuthor(Author author) {
+        authors.remove(author);
+    }
+    public void addContent(Element content) {
+        this.getContent().add(content);
     }
 
+    @Override
     public void print() {
-        System.out.println("Book: " + name);
-        authors.forEach(Author::print);
-        chapters.forEach(Chapter::print);
+        System.out.println("Book: " + getTitle());
+        System.out.println("Authors:");
+        for (Author author : authors) {
+            author.print();
+        }
+        for (Element element : getContent()) {
+            element.print();
+        }
     }
 }
-
